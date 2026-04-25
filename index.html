@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PickleKilts — Coming Soon</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Barlow+Condensed:wght@400;500;600;700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --green-950: #071410; --green-900: #0E2318; --green-800: #163320;
+  --green-700: #1E4D30; --green-600: #276040; --green-500: #30754F;
+  --green-300: #74AE8A; --green-200: #A5CEB5; --green-100: #D0E7DA;
+  --gold-700: #704C00; --gold-600: #9A6B0A; --gold-500: #C49A2A;
+  --gold-400: #D4B24E; --gold-300: #E2C97A;
+  --charcoal-800: #1C1C1C; --charcoal-600: #3A3A3A; --charcoal-400: #6B6B6B;
+  --cream: #F2EDE3; --cream-mid: #E8DFD0; --cream-dark: #D9CEBC;
+  --fd: 'Cormorant Garamond', Georgia, serif;
+  --fl: 'Barlow Condensed', sans-serif;
+  --fb: 'Barlow', sans-serif;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--green-900); color: var(--cream); font-family: var(--fb); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+
+/* ── Scroll reveal ── */
+[data-reveal] { opacity: 0; transform: translateY(36px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
+[data-reveal].visible { opacity: 1; transform: translateY(0); }
+[data-reveal="up-slow"] { transition-duration: 1.3s; }
+[data-reveal="fade"] { transform: none; transition: opacity 1.1s var(--ease); }
+[data-reveal="left"] { transform: translateX(-40px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
+[data-reveal="left"].visible { transform: translateX(0); }
+[data-reveal="right"] { transform: translateX(40px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
+[data-reveal="right"].visible { transform: translateX(0); }
+[data-delay="1"] { transition-delay: 0.1s; }
+[data-delay="2"] { transition-delay: 0.22s; }
+[data-delay="3"] { transition-delay: 0.38s; }
+[data-delay="4"] { transition-delay: 0.54s; }
+[data-delay="5"] { transition-delay: 0.72s; }
+
+/* ── Nav ── */
+#nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 72px; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 56px;
+  transition: background 600ms, border-color 600ms, backdrop-filter 600ms;
+  border-bottom: 1px solid transparent;
+}
+#nav.scrolled {
+  background: rgba(7,20,16,0.88);
+  backdrop-filter: blur(14px);
+  border-color: rgba(196,154,42,0.18);
+}
+.nav-logo { display: flex; align-items: baseline; gap: 6px; text-decoration: none; }
+.logo-serif { font-family: var(--fd); font-size: 26px; font-weight: 400; color: var(--cream); letter-spacing: -0.01em; }
+.logo-label { font-family: var(--fl); font-size: 22px; font-weight: 700; color: var(--gold-500); letter-spacing: 0.1em; text-transform: uppercase; }
+.nav-right { display: flex; align-items: center; gap: 32px; }
+.nav-link { font-family: var(--fl); font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green-200); text-decoration: none; transition: color 200ms; }
+.nav-link:hover { color: var(--cream); }
+.nav-cta { font-family: var(--fl); font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; background: var(--gold-500); color: var(--green-900); padding: 10px 22px; border-radius: 4px; text-decoration: none; transition: background 200ms; }
+.nav-cta:hover { background: var(--gold-400); }
+
+/* ── Hero ── */
+#hero {
+  min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+  padding: 120px 80px 100px; position: relative; overflow: hidden;
+  background-color: var(--green-900);
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 34px, rgba(196,154,42,0.07) 34px, rgba(196,154,42,0.07) 37px, transparent 37px, transparent 72px, rgba(7,20,16,0.5) 72px, rgba(7,20,16,0.5) 80px),
+    repeating-linear-gradient(90deg, transparent, transparent 34px, rgba(196,154,42,0.07) 34px, rgba(196,154,42,0.07) 37px, transparent 37px, transparent 72px, rgba(7,20,16,0.5) 72px, rgba(7,20,16,0.5) 80px);
+}
+#hero::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse at 60% 50%, transparent 35%, rgba(7,20,16,0.65) 100%);
+}
+.hero-inner { position: relative; z-index: 1; max-width: 860px; }
+.eyebrow { font-family: var(--fl); font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-500); display: flex; align-items: center; gap: 12px; margin-bottom: 32px; }
+.eyebrow-rule { width: 32px; height: 1px; background: var(--gold-500); }
+.hero-h1 { font-family: var(--fd); font-weight: 300; font-size: clamp(60px, 9vw, 108px); letter-spacing: -0.025em; line-height: 0.96; color: var(--cream); margin-bottom: 8px; }
+.hero-h1-gold { font-family: var(--fd); font-weight: 300; font-style: italic; font-size: clamp(60px, 9vw, 108px); letter-spacing: -0.025em; line-height: 0.96; color: var(--gold-400); margin-bottom: 44px; }
+.hero-sub { font-family: var(--fb); font-weight: 300; font-size: 19px; color: var(--green-200); line-height: 1.65; max-width: 480px; margin-bottom: 52px; }
+.hero-actions { display: flex; align-items: center; gap: 20px; }
+.btn-primary { font-family: var(--fl); font-size: 14px; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; background: var(--gold-500); color: var(--green-900); padding: 16px 38px; border-radius: 4px; text-decoration: none; transition: background 200ms; border: none; cursor: pointer; display: inline-block; }
+.btn-primary:hover { background: var(--gold-400); }
+.btn-ghost { font-family: var(--fl); font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green-200); padding: 15px 24px; border: 1px solid rgba(196,154,42,0.3); border-radius: 4px; text-decoration: none; transition: color 200ms, border-color 200ms; display: inline-block; }
+.btn-ghost:hover { color: var(--cream); border-color: rgba(196,154,42,0.7); }
+.scroll-hint { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; z-index: 1; }
+.scroll-hint span { font-family: var(--fl); font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--green-300); }
+.scroll-line { width: 1px; height: 36px; background: linear-gradient(to bottom, var(--gold-500), transparent); animation: scrollPulse 2s ease-in-out infinite; }
+@keyframes scrollPulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+/* ── Manifesto ── */
+#manifesto {
+  background: var(--green-950); padding: 140px 80px;
+  position: relative; overflow: hidden;
+}
+.manifesto-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 2fr; gap: 80px; align-items: start; }
+.manifesto-tag { font-family: var(--fl); font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold-500); display: flex; align-items: center; gap: 10px; margin-top: 12px; }
+.manifesto-rule { width: 20px; height: 1px; background: var(--gold-500); }
+.manifesto-lines { }
+.m-line { font-family: var(--fd); font-weight: 300; font-size: clamp(38px, 5vw, 64px); letter-spacing: -0.02em; line-height: 1.05; color: var(--cream); margin-bottom: 6px; }
+.m-line-italic { font-family: var(--fd); font-weight: 300; font-style: italic; font-size: clamp(38px, 5vw, 64px); letter-spacing: -0.02em; line-height: 1.05; color: var(--gold-300); margin-bottom: 40px; }
+.manifesto-body { font-family: var(--fb); font-weight: 300; font-size: 18px; color: var(--green-200); line-height: 1.75; max-width: 520px; }
+
+/* ── Tease ── */
+#tease { background: var(--cream); padding: 140px 80px; position: relative; }
+.tease-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.tease-placeholder {
+  aspect-ratio: 3/4; background: var(--cream-dark);
+  border: 1px solid var(--cream-dark);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.tease-placeholder::before {
+  content: ''; position: absolute; inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 24px, rgba(30,77,48,0.06) 24px, rgba(30,77,48,0.06) 26px),
+    repeating-linear-gradient(90deg, transparent, transparent 24px, rgba(30,77,48,0.06) 24px, rgba(30,77,48,0.06) 26px);
+}
+.placeholder-label { font-family: var(--fl); font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--charcoal-400); position: relative; z-index: 1; }
+.tease-content { }
+.tease-eyebrow { font-family: var(--fl); font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--green-700); display: flex; align-items: center; gap: 10px; margin-bottom: 28px; }
+.tease-eyebrow-rule { width: 20px; height: 1px; background: var(--green-700); }
+.tease-h2 { font-family: var(--fd); font-weight: 400; font-size: clamp(40px, 5vw, 60px); letter-spacing: -0.02em; line-height: 1.05; color: var(--green-900); margin-bottom: 28px; }
+.tease-h2 em { color: var(--gold-700); font-style: italic; }
+.tease-body { font-family: var(--fb); font-weight: 400; font-size: 17px; color: var(--charcoal-600, #505050); line-height: 1.75; margin-bottom: 36px; }
+.tease-hint { font-family: var(--fl); font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green-600); }
+
+/* ── Proof strip ── */
+#proof {
+  background: var(--green-800);
+  border-top: 1px solid rgba(196,154,42,0.2);
+  border-bottom: 1px solid rgba(196,154,42,0.2);
+  padding: 64px 80px;
+}
+.proof-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4,1fr); gap: 2px; }
+.proof-item { background: var(--green-900); padding: 36px 28px; text-align: center; }
+.proof-num { font-family: var(--fd); font-weight: 300; font-size: 52px; letter-spacing: -0.03em; color: var(--gold-400); line-height: 1; margin-bottom: 10px; }
+.proof-label { font-family: var(--fl); font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green-300); }
+
+/* ── Waitlist ── */
+#waitlist { background: var(--green-700); padding: 140px 80px; position: relative; overflow: hidden; }
+#waitlist::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent 0%, var(--gold-500) 30%, var(--gold-500) 70%, transparent 100%); }
+.waitlist-inner { max-width: 600px; margin: 0 auto; text-align: center; position: relative; z-index: 1; }
+.waitlist-eyebrow { font-family: var(--fl); font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-300); margin-bottom: 20px; }
+.waitlist-h2 { font-family: var(--fd); font-weight: 300; font-size: clamp(44px, 6vw, 72px); letter-spacing: -0.025em; line-height: 1.0; color: var(--cream); margin-bottom: 20px; }
+.waitlist-sub { font-family: var(--fb); font-weight: 300; font-size: 17px; color: var(--green-100); line-height: 1.7; margin-bottom: 48px; }
+.waitlist-form { display: flex; gap: 8px; }
+.waitlist-input { flex: 1; font-family: var(--fb); font-size: 15px; background: rgba(255,255,255,0.08); color: var(--cream); border: 1px solid rgba(196,154,42,0.4); border-radius: 4px; padding: 15px 18px; outline: none; transition: border-color 220ms, background 220ms; }
+.waitlist-input::placeholder { color: rgba(240,240,240,0.45); }
+.waitlist-input:focus { border-color: var(--gold-400); background: rgba(255,255,255,0.12); }
+.waitlist-disclaimer { font-family: var(--fb); font-size: 12px; color: var(--green-200); margin-top: 16px; }
+.success-msg { background: rgba(30,77,48,0.4); border: 1px solid rgba(196,154,42,0.3); border-radius: 4px; padding: 36px 40px; }
+.success-title { font-family: var(--fd); font-weight: 400; font-size: 32px; color: var(--cream); margin-bottom: 10px; }
+.success-body { font-family: var(--fb); font-size: 15px; color: var(--green-100); line-height: 1.6; }
+
+/* ── Footer ── */
+#footer { background: var(--green-950); border-top: 1px solid rgba(196,154,42,0.12); padding: 56px 80px 36px; }
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+.footer-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 48px; }
+.footer-logo { display: flex; align-items: baseline; gap: 6px; margin-bottom: 14px; }
+.footer-tagline { font-family: var(--fb); font-weight: 300; font-size: 14px; color: var(--green-300); line-height: 1.6; max-width: 240px; }
+.footer-links { display: flex; gap: 48px; }
+.footer-col-label { font-family: var(--fl); font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-500); margin-bottom: 14px; }
+.footer-col a { display: block; font-family: var(--fb); font-size: 14px; color: var(--green-300); text-decoration: none; margin-bottom: 10px; transition: color 200ms; }
+.footer-col a:hover { color: var(--cream); }
+.footer-rule { height: 1px; background: rgba(196,154,42,0.15); margin-bottom: 20px; }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; }
+.footer-copy { font-family: var(--fb); font-size: 12px; color: var(--green-500); }
+.footer-mark { font-family: var(--fl); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green-600); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="#">
+    <span class="logo-serif">Pickle</span><span class="logo-label">Kilts</span>
+  </a>
+  <div class="nav-right">
+    <a class="nav-link" href="#manifesto">Our Story</a>
+    <a class="nav-link" href="#tease">The Kilt</a>
+    <a class="nav-cta" href="#waitlist">Get Early Access</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="eyebrow" data-reveal data-delay="1">
+      <div class="eyebrow-rule"></div>
+      Something is coming · Season One
+    </div>
+    <div class="hero-h1" data-reveal data-delay="2">The sport<br>has evolved.</div>
+    <div class="hero-h1-gold" data-reveal data-delay="3">The outfit<br>hasn't. Until now.</div>
+    <p class="hero-sub" data-reveal data-delay="4">
+      A new kind of performance wear is on the way. Bold, irreverent, unapologetically Scottish. Built for the pickleball court.
+    </p>
+    <div class="hero-actions" data-reveal data-delay="5">
+      <a class="btn-primary" href="#waitlist">Get Early Access</a>
+      <a class="btn-ghost" href="#manifesto">Learn More</a>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section id="manifesto">
+  <div class="manifesto-grid">
+    <div>
+      <div class="manifesto-tag" data-reveal="fade">
+        <div class="manifesto-rule"></div>
+        The Idea
+      </div>
+    </div>
+    <div class="manifesto-lines">
+      <div class="m-line" data-reveal data-delay="1">You've outplayed</div>
+      <div class="m-line" data-reveal data-delay="2">everyone on the court.</div>
+      <div class="m-line-italic" data-reveal data-delay="3">Now outclass them.</div>
+      <p class="manifesto-body" data-reveal data-delay="4">
+        Pickleball is the fastest-growing sport in the world. Its players are bold, competitive, and stylish everywhere except the court. We're changing that. We're not here to make activewear. We're here to make a statement.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- TEASE -->
+<section id="tease">
+  <div class="tease-inner">
+    <div class="tease-placeholder" data-reveal="left">
+      <span class="placeholder-label">Product imagery coming soon</span>
+    </div>
+    <div class="tease-content" data-reveal="right">
+      <div class="tease-eyebrow">
+        <div class="tease-eyebrow-rule"></div>
+        Season One
+      </div>
+      <h2 class="tease-h2">
+        Performance kilt.<br><em>Not a costume.</em>
+      </h2>
+      <p class="tease-body">
+        Everything you'd expect from premium athletic wear — and one thing you absolutely wouldn't. Details to be revealed to waitlist members first.
+      </p>
+      <div class="tease-hint">Waitlist members get first look →</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF STRIP -->
+<section id="proof">
+  <div class="proof-inner">
+    <div class="proof-item" data-reveal data-delay="1">
+      <div class="proof-num">1st</div>
+      <div class="proof-label">Of its kind</div>
+    </div>
+    <div class="proof-item" data-reveal data-delay="2">
+      <div class="proof-num">48M+</div>
+      <div class="proof-label">Pickleball players</div>
+    </div>
+    <div class="proof-item" data-reveal data-delay="3">
+      <div class="proof-num">S–3XL</div>
+      <div class="proof-label">Planned size range</div>
+    </div>
+    <div class="proof-item" data-reveal data-delay="4">
+      <div class="proof-num">0</div>
+      <div class="proof-label">Compromises made</div>
+    </div>
+  </div>
+</section>
+
+<!-- WAITLIST -->
+<section id="waitlist">
+  <div class="waitlist-inner">
+    <div class="waitlist-eyebrow" data-reveal="fade">Early Access · Limited Spots</div>
+    <h2 class="waitlist-h2" data-reveal>Be the first<br>to know.</h2>
+    <p class="waitlist-sub" data-reveal data-delay="2">
+      We're not ready to show everything yet. But when we are, waitlist members hear first — and get access before anyone else.
+    </p>
+    <div id="waitlist-form-wrap" data-reveal data-delay="3">
+      <form class="waitlist-form" id="wl-form">
+        <input class="waitlist-input" id="wl-email" type="email" placeholder="your@email.com" required>
+        <button class="btn-primary" type="submit">Notify Me</button>
+      </form>
+      <p class="waitlist-disclaimer">No spam. Just kilts. Unsubscribe anytime.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">
+          <span class="logo-serif" style="font-size:24px">Pickle</span>
+          <span class="logo-label" style="font-size:20px">Kilts</span>
+        </div>
+        <p class="footer-tagline">Something bold is coming to the pickleball court.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <div class="footer-col-label">Navigate</div>
+          <a href="#manifesto">Our Story</a>
+          <a href="#tease">The Kilt</a>
+          <a href="#waitlist">Early Access</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label">Contact</div>
+          <a href="#">Press Enquiries</a>
+          <a href="#">Partnerships</a>
+          <a href="#"><span class="__cf_email__" data-cfemail="5b333e3737341b2b323830373e3032372f2875383436">[email&#160;protected]</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-rule"></div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2024 PickleKilts. No governing body was consulted.</span>
+      <span class="footer-mark">Season One · Coming Soon</span>
+    </div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── Nav scroll state ──
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
+
+// ── Scroll reveal via IntersectionObserver ──
+const revealEls = document.querySelectorAll('[data-reveal]');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+revealEls.forEach(el => observer.observe(el));
+
+// Trigger hero reveals immediately (already in view)
+setTimeout(() => {
+  document.querySelectorAll('#hero [data-reveal]').forEach(el => el.classList.add('visible'));
+}, 100);
+
+// ── Waitlist form ──
+document.getElementById('wl-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const wrap = document.getElementById('waitlist-form-wrap');
+  wrap.innerHTML = `
+    <div class="success-msg">
+      <div class="success-title">You're on the list.</div>
+      <div class="success-body">We'll be in touch when the time is right. In the meantime, practise your dink.</div>
+    </div>
+  `;
+});
+</script>
+</body>
+</html>
