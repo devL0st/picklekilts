@@ -168,6 +168,132 @@ body { background: var(--green-900); color: var(--cream); font-family: var(--fb)
 .footer-bottom { display: flex; justify-content: space-between; align-items: center; }
 .footer-copy { font-family: var(--fb); font-size: 12px; color: var(--green-500); }
 .footer-mark { font-family: var(--fl); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green-600); }
+
+/* ── Hamburger ── */
+.nav-hamburger {
+  display: none; flex-direction: column; justify-content: center; gap: 5px;
+  width: 40px; height: 40px; cursor: pointer; padding: 6px;
+  background: none; border: none;
+}
+.nav-hamburger span {
+  display: block; width: 22px; height: 1.5px;
+  background: var(--cream); border-radius: 1px;
+  transition: transform 350ms var(--ease), opacity 250ms;
+}
+.nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* Mobile menu drawer */
+#mobile-menu {
+  display: none; position: fixed; inset: 0; top: 72px; z-index: 99;
+  background: rgba(7,20,16,0.97); backdrop-filter: blur(16px);
+  flex-direction: column; align-items: center; justify-content: center;
+  gap: 0; opacity: 0; pointer-events: none;
+  transition: opacity 400ms var(--ease);
+}
+#mobile-menu.open { opacity: 1; pointer-events: all; }
+.mobile-nav-link {
+  font-family: var(--fl); font-size: 32px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--cream); text-decoration: none;
+  padding: 20px 0; border-bottom: 1px solid rgba(196,154,42,0.15);
+  width: 80%; text-align: center;
+  transition: color 200ms;
+}
+.mobile-nav-link:last-of-type { border-bottom: none; }
+.mobile-nav-link:hover { color: var(--gold-400); }
+.mobile-nav-cta {
+  margin-top: 32px;
+  font-family: var(--fl); font-size: 16px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  background: var(--gold-500); color: var(--green-900);
+  padding: 18px 48px; border-radius: 4px; text-decoration: none;
+}
+
+/* ════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+════════════════════════════════ */
+
+/* ── Tablet (≤1024px) ── */
+@media (max-width: 1024px) {
+  #nav { padding: 0 36px; }
+  #hero { padding: 100px 48px 80px; }
+  #manifesto { padding: 100px 48px; }
+  .manifesto-grid { grid-template-columns: 1fr; gap: 32px; }
+  #tease { padding: 100px 48px; }
+  .tease-inner { grid-template-columns: 1fr 1fr; gap: 48px; }
+  #proof { padding: 56px 48px; }
+  #waitlist { padding: 100px 48px; }
+  #footer { padding: 48px 48px 32px; }
+}
+
+/* ── Mobile (≤768px) ── */
+@media (max-width: 768px) {
+
+  /* Nav */
+  #nav { padding: 0 24px; height: 64px; }
+  .nav-right { display: none; }
+  .nav-hamburger { display: flex; }
+  #mobile-menu { display: flex; top: 64px; }
+  .logo-serif { font-size: 22px; }
+  .logo-label { font-size: 18px; }
+
+  /* Hero */
+  #hero { padding: 100px 24px 80px; min-height: 100svh; }
+  .hero-h1, .hero-h1-gold { font-size: clamp(48px, 12vw, 72px); line-height: 0.98; }
+  .hero-sub { font-size: 16px; margin-bottom: 40px; }
+  .hero-actions { flex-direction: column; align-items: flex-start; gap: 12px; width: 100%; }
+  .btn-primary, .btn-ghost { width: 100%; text-align: center; padding: 18px 24px; font-size: 14px; }
+
+  /* Manifesto */
+  #manifesto { padding: 80px 24px; }
+  .manifesto-grid { grid-template-columns: 1fr; gap: 24px; }
+  .manifesto-tag { margin-top: 0; }
+  .m-line, .m-line-italic { font-size: clamp(32px, 9vw, 52px); }
+  .manifesto-body { font-size: 16px; }
+
+  /* Tease */
+  #tease { padding: 80px 24px; }
+  .tease-inner { grid-template-columns: 1fr; gap: 40px; }
+  .tease-placeholder { aspect-ratio: 4/3; order: -1; }
+  .tease-h2 { font-size: clamp(36px, 9vw, 52px); }
+  .tease-body { font-size: 15px; }
+
+  /* Proof strip — 2×2 on mobile */
+  #proof { padding: 48px 24px; }
+  .proof-inner { grid-template-columns: 1fr 1fr; }
+  .proof-num { font-size: 40px; }
+  .proof-item { padding: 28px 16px; }
+
+  /* Waitlist */
+  #waitlist { padding: 80px 24px; }
+  .waitlist-h2 { font-size: clamp(40px, 11vw, 64px); }
+  .waitlist-sub { font-size: 15px; margin-bottom: 36px; }
+  .waitlist-form { flex-direction: column; gap: 10px; }
+  .waitlist-input { width: 100%; font-size: 16px; /* prevent iOS zoom */ }
+  .waitlist-form .btn-primary { width: 100%; text-align: center; padding: 18px; }
+
+  /* Footer */
+  #footer { padding: 48px 24px 28px; }
+  .footer-top { flex-direction: column; gap: 36px; margin-bottom: 36px; }
+  .footer-links { flex-direction: column; gap: 28px; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .footer-tagline { max-width: 100%; }
+
+  /* Reduce reveal animation distance on small screens */
+  [data-reveal] { transform: translateY(20px); }
+  [data-reveal="left"] { transform: translateX(-20px); }
+  [data-reveal="right"] { transform: translateX(20px); }
+}
+
+/* ── Small mobile (≤390px) ── */
+@media (max-width: 390px) {
+  .hero-h1, .hero-h1-gold { font-size: 42px; }
+  .m-line, .m-line-italic { font-size: 30px; }
+  .proof-inner { grid-template-columns: 1fr 1fr; }
+  .proof-num { font-size: 34px; }
+}
 </style>
 </head>
 <body>
@@ -182,7 +308,18 @@ body { background: var(--green-900); color: var(--cream); font-family: var(--fb)
     <a class="nav-link" href="#tease">The Kilt</a>
     <a class="nav-cta" href="#waitlist">Get Early Access</a>
   </div>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- MOBILE MENU -->
+<div id="mobile-menu">
+  <a class="mobile-nav-link" href="#manifesto">Our Story</a>
+  <a class="mobile-nav-link" href="#tease">The Kilt</a>
+  <a class="mobile-nav-link" href="#waitlist">Early Access</a>
+  <a class="mobile-nav-cta btn-primary" href="#waitlist">Get Early Access</a>
+</div>
 
 <!-- HERO -->
 <section id="hero">
@@ -311,7 +448,7 @@ body { background: var(--green-900); color: var(--cream); font-family: var(--fb)
           <div class="footer-col-label">Contact</div>
           <a href="#">Press Enquiries</a>
           <a href="#">Partnerships</a>
-          <a href="#"><span class="__cf_email__" data-cfemail="5b333e3737341b2b323830373e3032372f2875383436">[email&#160;protected]</span></a>
+          <a href="#"><span class="__cf_email__" data-cfemail="a5cdc0c9c9cae5d5ccc6cec9c0ceccc9d1d68bc6cac8">[email&#160;protected]</span></a>
         </div>
       </div>
     </div>
@@ -329,6 +466,22 @@ const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 40);
 }, { passive: true });
+
+// ── Hamburger / mobile menu ──
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+hamburger.addEventListener('click', () => {
+  const open = hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+});
+mobileMenu.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  });
+});
 
 // ── Scroll reveal via IntersectionObserver ──
 const revealEls = document.querySelectorAll('[data-reveal]');
